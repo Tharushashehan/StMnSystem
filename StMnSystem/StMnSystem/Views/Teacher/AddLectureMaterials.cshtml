@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "AddLectureMaterials";
+}
+
+<h2>AddLectureMaterials</h2>
+
+@using(Html.BeginForm("Index","Home",FormMethod.Post,new
+{
+    enctype = "multipart/form-data"
+}))
+{
+    <input type="file" name="file" />
+    <input type="submit" value="OK" />
+}
+
+[HttpPost]
+public ActionResult Index(HttpPostedFileBase file) {
+
+  if (file.ContentLength > 0) {
+    var fileName = Path.GetFileName(file.FileName);
+    var path = Path.Combine(Server.MapPath("~/App_Data/Uploads"), fileName);
+    file.SaveAs(path);
+  }
+
+  return RedirectToAction("Index");
+}
+

@@ -1,0 +1,88 @@
+﻿
+@model PagedList.IPagedList<StMnSystem.Models.ExpandedUserDTO>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "AddMarks";
+}
+
+<h2>AddMarks</h2>
+<body>
+    <form method="post">
+        <fieldset>
+            <legend>Add Evaluation</legend>
+
+
+            <div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <div class="col-xs-6">
+                                    <label for="Email">Student Id:</label>
+                                </div>
+
+                            </th>
+                            
+                            <th>
+                                <div class="col-xs-6">
+                                    <label for="Marks">Marks:</label>
+                                </div>
+
+                            </th>
+                        </tr>
+
+                        @foreach(var item in Model)
+                        {
+                            if(item.Email!="Admin@Admin.com")
+                            {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LockoutEndDateUtc)
+                                </td>
+                                <td>
+                                        <div class="col-md-10">
+                                             @Html.TextBoxFor(modelItem => item.PhoneNumber,new { @class = "form-control"})
+                                        </div>
+                                </td>
+                            </tr>
+                            }
+                        }
+
+                    </thead>
+                </table>
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+                @Html.PagedListPager(Model,
+    page => Url.Action("AddMarks",
+    new
+    {
+        page,
+        searchStringUserNameOrEmail = ViewBag.searchStringUserNameOrEmail,
+        currentFilter = ViewBag.CurrentFilter
+    }))
+            </div>
+            <div style="height:10px;">
+
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-default" value="Submit" onclick="return confirm('Marks entered succcesfully');"/>
+                    @Html.ActionLink("Back to Evaluation",
+               "Contact","Home",
+               null,
+               new
+               {
+                   @class = "btn btn-default"
+               })
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</body>
+
+
